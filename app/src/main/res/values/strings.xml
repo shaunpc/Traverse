@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Traverse</string>
+    <string name="hello">Hello World, Checkers!</string>
+    <string name="game_title">Traverse</string>
+    <string name="game_info">Welcome to Traverse!</string>
+    <string name="main_title">Welcome!</string>
+    <string name="continue_label">Continue Saved Game</string>
+    <string name="new_game_label">New Game</string>
+    <string name="about_label">About</string>
+    <string name="exit_label">Exit</string>
+    <string name="saveGame_title">Save Game</string>
+    <string name="action_settings">No Settings yet!</string>
+    <string name="numplayers">Number of human players</string>
+    <string name="numplayer1">1</string>
+    <string name="numplayer2">2</string>
+    <string name="numplayer3">3</string>
+    <string name="numplayer4">4</string>
+
+</resources>

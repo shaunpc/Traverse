@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="square_base_top">#ffe4e4</color>
+    <color name="square_base_left">#fff6df</color>
+    <color name="square_base_right">#f0f8db</color>
+    <color name="square_base_bottom">#e2f4fb</color>
+    <color name="square_corner">#f5eafa</color>
+    <color name="piece_blue">#2cb1e1</color>
+    <color name="piece_green">#92c500</color>
+    <color name="piece_yellow">#ffb61c</color>
+    <color name="piece_red">#f83a3a</color>
+    <color name="square_dark">#848484</color>
+    <color name="square_light">#fbf8ef</color>
+    <color name="opaque_red">#f00</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="white1">#FFFFDD</color>
+    <color name="green1">#FF99EECC</color>
+    <color name="blue">#FF33B5E5</color>
+    <color name="purple">#FFAA66CC</color>
+    <color name="green">#FF99CC00</color>
+    <color name="orange">#FFFFBB33</color>
+    <color name="red">#FFFF4444</color>
+    <color name="darkblue">#FF0099CC</color>
+    <color name="darkpurple">#FF9933CC</color>
+    <color name="darkgreen">#FF669900</color>
+    <color name="darkorange">#FFFF8800</color>
+    <color name="darkred">#FFCC0000</color>
+
+</resources>

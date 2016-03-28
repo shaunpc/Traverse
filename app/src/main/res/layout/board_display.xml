@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/board_display"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:maxHeight="@dimen/square_size"
+        android:minHeight="@dimen/square_size"
+        android:text="@string/game_info"
+        android:textAlignment="center"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/message_display_size" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/square_size" />
+
+    <GridLayout
+        android:id="@+id/board"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:columnCount="10"
+        android:columnOrderPreserved="true"
+        android:rowCount="10"
+        android:rowOrderPreserved="true">
+
+        <Button
+            android:id="@+id/button_fake"
+            android:layout_columnSpan="10"
+            android:layout_gravity="fill"
+            android:layout_rowSpan="10"
+            android:text="Button" />
+
+    </GridLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/square_size" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:maxHeight="@dimen/square_size"
+        android:minHeight="@dimen/square_size"
+        android:id="@+id/tv_msg1"
+        android:text="@string/game_info"
+        android:textAlignment="center"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/text_size_M" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/button_red"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:maxHeight="@dimen/button_size"
+            android:maxWidth="@dimen/button_size"
+            android:minHeight="@dimen/button_size"
+            android:minWidth="@dimen/button_size"
+            android:scaleType="centerInside"
+            android:onClick="colouredButtonClick"
+            android:src="@drawable/button_red" />
+
+        <ImageButton
+            android:id="@+id/button_yellow"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:maxHeight="@dimen/button_size"
+            android:maxWidth="@dimen/button_size"
+            android:minHeight="@dimen/button_size"
+            android:minWidth="@dimen/button_size"
+            android:scaleType="centerInside"
+            android:onClick="colouredButtonClick"
+            android:src="@drawable/button_yellow" />
+
+        <ImageButton
+            android:id="@+id/button_green"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:maxHeight="@dimen/button_size"
+            android:maxWidth="@dimen/button_size"
+            android:minHeight="@dimen/button_size"
+            android:minWidth="@dimen/button_size"
+            android:scaleType="centerInside"
+            android:onClick="colouredButtonClick"
+            android:src="@drawable/button_green" />
+
+        <ImageButton
+            android:id="@+id/button_blue"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:maxHeight="@dimen/button_size"
+            android:maxWidth="@dimen/button_size"
+            android:minHeight="@dimen/button_size"
+            android:minWidth="@dimen/button_size"
+            android:scaleType="centerInside"
+            android:onClick="colouredButtonClick"
+            android:src="@drawable/button_blue" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:maxHeight="@dimen/square_size"
+        android:minHeight="@dimen/square_size"
+        android:id="@+id/tv_msg2"
+        android:text="@string/game_info"
+        android:textAlignment="center"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/text_size_S" />
+
+</LinearLayout>
