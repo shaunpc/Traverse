@@ -11,9 +11,23 @@
     <string name="saveGame_title">Save Game</string>
     <string name="action_settings">No Settings yet!</string>
     <string name="numplayers">Number of human players</string>
+    <string name="numplayer0">0</string>
     <string name="numplayer1">1</string>
     <string name="numplayer2">2</string>
     <string name="numplayer3">3</string>
     <string name="numplayer4">4</string>
+    <string name="pregame">PRE-GAME - adjust your starting positions!</string>
+    <string name="whenready">"Juggle your baseline pieces, or tell me you are ready to play"</string>
+    <string name="gameon">GAME ON!</string>
+    <string name="selectsquare">Select which square to move this piece to</string>
+    <string name="novalidmoves">No valid moves for this piece</string>
+    <string name="fakebutton">Button</string>
+    <string name="computer_move">Making computer move for %1$s player</string>
+    <string name="red">RED</string>
+    <string name="blue">BLUE</string>
+    <string name="yellow">YELLOW</string>
+    <string name="green">GREEN</string>
+    <string name="finished_moving">Finished Moving</string>
+
 
 </resources>

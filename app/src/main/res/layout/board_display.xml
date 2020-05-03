@@ -37,7 +37,7 @@
             android:layout_columnSpan="10"
             android:layout_gravity="fill"
             android:layout_rowSpan="10"
-            android:text="Button" />
+            android:text="@string/fakebutton" />
 
     </GridLayout>
 
@@ -58,14 +58,17 @@
         android:textColor="@color/blue"
         android:textSize="@dimen/text_size_M" />
 
+
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:id="@+id/finished_moving">
 
         <ImageButton
-            android:id="@+id/button_red"
+            android:id="@+id/finished_moving_image"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -75,50 +78,23 @@
             android:minHeight="@dimen/button_size"
             android:minWidth="@dimen/button_size"
             android:scaleType="centerInside"
-            android:onClick="colouredButtonClick"
-            android:src="@drawable/button_red" />
+            android:src="@drawable/button_red"
+            android:contentDescription="@string/red"
+            android:onClick="finishedMoving"/>
 
-        <ImageButton
-            android:id="@+id/button_yellow"
+        <Button
+            android:id="@+id/finished_moving_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
             android:maxHeight="@dimen/button_size"
-            android:maxWidth="@dimen/button_size"
             android:minHeight="@dimen/button_size"
-            android:minWidth="@dimen/button_size"
-            android:scaleType="centerInside"
-            android:onClick="colouredButtonClick"
-            android:src="@drawable/button_yellow" />
-
-        <ImageButton
-            android:id="@+id/button_green"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:maxHeight="@dimen/button_size"
-            android:maxWidth="@dimen/button_size"
-            android:minHeight="@dimen/button_size"
-            android:minWidth="@dimen/button_size"
-            android:scaleType="centerInside"
-            android:onClick="colouredButtonClick"
-            android:src="@drawable/button_green" />
-
-        <ImageButton
-            android:id="@+id/button_blue"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:maxHeight="@dimen/button_size"
-            android:maxWidth="@dimen/button_size"
-            android:minHeight="@dimen/button_size"
-            android:minWidth="@dimen/button_size"
-            android:scaleType="centerInside"
-            android:onClick="colouredButtonClick"
-            android:src="@drawable/button_blue" />
+            android:scaleType="fitCenter"
+            android:text="@string/finished_moving"
+            android:contentDescription="@string/red"
+            android:onClick="finishedMoving" />
 
     </LinearLayout>
 

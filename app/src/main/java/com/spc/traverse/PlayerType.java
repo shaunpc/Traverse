@@ -1,7 +1,7 @@
 package com.spc.traverse;
 
 /**
- * Created by shaun on 17/10/15.
+ * PLAYER TYPE enumerator Created by shaun on 17/10/15.
  */
 public enum PlayerType {
     HUMAN,

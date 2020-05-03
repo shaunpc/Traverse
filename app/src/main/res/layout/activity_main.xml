@@ -2,48 +2,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:layout_gravity="center"
+    android:background="@android:color/holo_blue_light"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
-    android:layout_gravity="center"
     tools:context=".MainActivity"
-    android:background="@android:color/holo_blue_light">
+    android:weightSum="1">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
-        android:contentDescription="@string/game_title"
-        android:background="@drawable/traverse"/>
+        android:layout_weight="0.95"
+        android:background="@drawable/traverse"
+        android:contentDescription="@string/game_title" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:orientation="vertical"
-        android:layout_gravity="center">
-
-        <TextView
-            android:text="@string/main_title"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="25dip"
-            android:textSize="@dimen/text_size_XL"
-            android:textStyle="bold"
-            android:paddingLeft="@dimen/text_size_XL"
-            android:paddingRight="@dimen/text_size_XL" />
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
 
         <Button
             android:id="@+id/new_button"
-            android:background="@drawable/button_shape_unicorn"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_shape_unicorn"
+            android:onClick="startGame"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
             android:text="@string/new_game_label"
             android:textSize="@dimen/text_size_L"
-            android:textStyle="bold"
-            android:onClick="startGame"/>
+            android:textStyle="bold" />
 
         <Space
             android:layout_width="match_parent"
@@ -59,63 +56,88 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/numplayers"
-                android:textSize="@dimen/text_size_S"
-                android:gravity="center"
+                android:layout_marginBottom="@dimen/text_size_XS"
                 android:layout_marginTop="@dimen/text_size_XS"
-                android:layout_marginBottom="@dimen/text_size_XS" />
+                android:gravity="center"
+                android:text="@string/numplayers"
+                android:textSize="@dimen/text_size_S" />
 
 
             <RadioGroup
+                android:id="@+id/numplayers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/numplayers"
-                android:orientation="horizontal"
                 android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:checkedButton="@id/numplayers1"
+                android:paddingBottom="@dimen/text_size_XS"
                 android:paddingLeft="@dimen/text_size_XS"
-                android:paddingRight="@dimen/text_size_XS"
-                android:paddingBottom="@dimen/text_size_XS">
+                android:paddingRight="@dimen/text_size_XS">
 
-                <ImageButton
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                <RadioButton
+                    android:id="@+id/numplayers0"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="@dimen/text_size_XS"
+                    android:background="@drawable/sel_numplayerbutton_image"
+                    android:contentDescription="@string/game_title"
+                    android:button="@null"
+                    android:fontFamily="cursive"
+                    android:text="@string/numplayer0"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark" />
+
+                <RadioButton
                     android:id="@+id/numplayers1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="@dimen/text_size_XS"
+                    android:background="@drawable/sel_numplayerbutton_image"
                     android:contentDescription="@string/game_title"
-                    android:background="@drawable/numplayers1_on"
-                    android:onClick="setNumPlayers"
-                    android:layout_marginRight="@dimen/text_size_XS"
-                    android:layout_marginEnd="@dimen/text_size_XS" />
+                    android:button="@null"
+                    android:fontFamily="cursive"
+                    android:text="@string/numplayer1"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark" />
 
-                <ImageButton
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                <RadioButton
                     android:id="@+id/numplayers2"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="@dimen/text_size_XS"
+                    android:background="@drawable/sel_numplayerbutton_image"
                     android:contentDescription="@string/game_title"
-                    android:background="@drawable/numplayers2_off"
-                    android:onClick="setNumPlayers"
-                    android:layout_marginRight="@dimen/text_size_XS"
-                    android:layout_marginEnd="@dimen/text_size_XS" />
+                    android:button="@null"
+                    android:fontFamily="cursive"
+                    android:text="@string/numplayer2"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark"/>
 
-                <ImageButton
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                <RadioButton
                     android:id="@+id/numplayers3"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="@dimen/text_size_XS"
+                    android:background="@drawable/sel_numplayerbutton_image"
                     android:contentDescription="@string/game_title"
-                    android:background="@drawable/numplayers3_off"
-                    android:onClick="setNumPlayers"
-                    android:layout_marginRight="@dimen/text_size_XS"
-                    android:layout_marginEnd="@dimen/text_size_XS" />
+                    android:button="@null"
+                    android:fontFamily="cursive"
+                    android:text="@string/numplayer3"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark"/>
 
-                <ImageButton
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                <RadioButton
                     android:id="@+id/numplayers4"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/sel_numplayerbutton_image"
                     android:contentDescription="@string/game_title"
-                    android:onClick="setNumPlayers"
-                    android:background="@drawable/numplayers4_off" ></ImageButton>
-
+                    android:button="@null"
+                    android:fontFamily="cursive"
+                    android:text="@string/numplayer4"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark"/>
             </RadioGroup>
-
 
         </LinearLayout>
 
@@ -126,12 +148,14 @@
 
         <Button
             android:id="@+id/continue_button"
-            android:background="@drawable/button_shape"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_shape"
+            android:onClick="continueGame"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
             android:text="@string/continue_label"
-            android:textSize="@dimen/text_size_M"
-            android:onClick="continueGame"/>
+            android:textSize="@dimen/text_size_M" />
 
         <Space
             android:layout_width="match_parent"
@@ -140,12 +164,14 @@
 
         <Button
             android:id="@+id/about_button"
-            android:background="@drawable/button_shape"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_shape"
+            android:onClick="aboutGame"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
             android:text="@string/about_label"
-            android:textSize="@dimen/text_size_M"
-            android:onClick="aboutGame"/>
+            android:textSize="@dimen/text_size_M" />
 
         <Space
             android:layout_width="match_parent"
@@ -154,12 +180,14 @@
 
         <Button
             android:id="@+id/exit_button"
-            android:background="@drawable/button_shape"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_shape"
+            android:onClick="exit"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
             android:text="@string/exit_label"
-            android:textSize="@dimen/text_size_M"
-            android:onClick="exit"/>
+            android:textSize="@dimen/text_size_M" />
 
     </LinearLayout>
 </LinearLayout>

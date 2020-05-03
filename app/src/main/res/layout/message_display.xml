@@ -4,12 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="@android:color/transparent"
+    android:onClick="onClick"
     android:orientation="vertical">
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="24dp"
-        android:layout_weight="1" />
 
     <TextView
         android:id="@+id/textview_message_display"
@@ -24,6 +20,7 @@
         android:background="@drawable/button_shape_unicorn"
         android:gravity="center"
         android:minLines="3"
+        android:onClick="onClick"
         android:paddingBottom="@dimen/message_display_size"
         android:paddingLeft="@dimen/message_display_size"
         android:paddingRight="@dimen/message_display_size"
@@ -32,11 +29,5 @@
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="@dimen/message_display_size" />
-
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="24dp"
-        android:layout_weight="1" />
 
 </LinearLayout>

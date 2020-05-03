@@ -2,4 +2,5 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@drawable/sq_main_light_click" android:state_enabled="true" android:state_pressed="true" />
     <item android:drawable="@drawable/sq_main_light" android:state_enabled="true" />
+    <item android:drawable="@drawable/sq_main_light_border" android:state_activated="true"/>
 </selector>

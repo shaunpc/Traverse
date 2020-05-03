@@ -1,7 +1,7 @@
 package com.spc.traverse;
 
 /**
- * Created by shaun on 14/10/15.
+ * SHAPE TYPE enumerator Created by shaun on 14/10/15.
  */
 public enum ShapeType {
     TRIANGLE,
