@@ -9,20 +9,20 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
-import java.util.Random;
 
 /**
  * Created by tcottz7 on 27/08/15.
  * This displays the Traverse board...
  */
 public class BoardDisplay extends Activity {
-
 
     public static final String TAG = "BOARD_DISPLAY";
     public static final int INVALID  = -1;
@@ -32,17 +32,18 @@ public class BoardDisplay extends Activity {
     public String msg;
     public int maxRows = 10;
     public int maxCols = 10;
-    public int maxPlayers = 4;
     public Squares[][] board = new Squares[maxRows][maxCols];
     public Squares moveToSquare = null;
     public Squares moveFromSquare = null;
-    public Player[] player = new Player[4];
+    public int maxPlayers = 4;
+    public int numPlayers = 2;
+    public Player[] player = new Player[maxPlayers];
     public int current_player;
     ArrayList<Move> legalMoves = new ArrayList<>();
     public Move best_comp_move;
 
-    public TextView tv_msg1, tv_msg2;
-    public ImageButton btn_finished_moving_image;
+    public TextView tv_msg1, tv_msg2, tv_msg3;
+    public Button btn_finishedHumanBaseSetup;
     GridLayout gl_board;
     Boolean newgame = true;
     Boolean pre_game = true;
@@ -56,19 +57,18 @@ public class BoardDisplay extends Activity {
         // Create and display the board
         createBoardGridLayout();
 
-        Log.i(TAG, "...getting the extras....");
-
-        int numplayers = 1;
+        // See if any parameters passed
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             newgame = extras.getBoolean("newgame", true);
-            numplayers = extras.getInt("players", 1);
+            numPlayers = extras.getInt("players", 2);
         }
 
         tv_msg1 = findViewById(R.id.tv_msg1);
         tv_msg2 = findViewById(R.id.tv_msg2);
+        tv_msg3 = findViewById(R.id.tv_msg3);
         gl_board = findViewById(R.id.board);
-        btn_finished_moving_image = findViewById(R.id.finished_moving_image);
+        btn_finishedHumanBaseSetup = findViewById(R.id.finished_moving_button);
 
         if (newgame) {
             pre_game = true;
@@ -76,26 +76,23 @@ public class BoardDisplay extends Activity {
             tv_msg1.setText(getString(R.string.pregame));
             tv_msg2.setText(getString(R.string.whenready));
 
-            player[0] = new Player(0, TeamColour.RED, Direction.W2E);
-            player[0].setImage(getResources().getDrawable(R.drawable.button_red));
-            player[1] = new Player(1, TeamColour.BLUE, Direction.N2S);
-            player[1].setImage(getResources().getDrawable(R.drawable.button_blue));
-            player[2] = new Player(2, TeamColour.GREEN, Direction.E2W);
-            player[2].setImage(getResources().getDrawable(R.drawable.button_green));
-            player[3] = new Player(3, TeamColour.YELLOW, Direction.S2N);
-            player[3].setImage(getResources().getDrawable(R.drawable.button_yellow));
+            /* Player 0 is always the HUMAN, RED and heading up the screen */
+            player[0] = new Player(0, TeamColour.RED, PlayerType.HUMAN, Direction.S2N);
 
-            for (int i = 0; i < maxPlayers; i++) {
-                if (i < numplayers) {
-                    player[i].setType(PlayerType.HUMAN);                 // tag the HUMAN players
-                } else {
-                    player[i].jugglePieces();       // juggle COMPUTER pieces
-                    player[i].setStarted(true);    // COMPUTER player ready to play!
-                }
-                paintPieces(player[i]);
+            /* Always have at least one COMPUTER opponent */
+            player[1] = new Player(1, TeamColour.BLUE, PlayerType.COMPUTER, Direction.N2S);
+
+            /* Add the third player if necessary */
+            if (numPlayers > 2) {
+                player[2] = new Player(2, TeamColour.GREEN, PlayerType.COMPUTER, Direction.E2W);
             }
 
-            btn_finished_moving_image.setImageDrawable(player[current_player].getImage());
+            /* Add the fourth player if necessary */
+            if (numPlayers > 3) {
+                player[3] = new Player(3, TeamColour.YELLOW, PlayerType.COMPUTER, Direction.W2E);
+            }
+
+            for (int p = 0; p < numPlayers; p++) {paintPieces(player[p]); }
             resetBoardClickables();
         }
     }
@@ -122,6 +119,8 @@ public class BoardDisplay extends Activity {
     public void resetBoardClickables() {
         for (int y = 0; y < maxRows; y++) {
             for (int x = 0; x < maxCols; x++) {
+                board[x][y].highlightSquare(false); // reset square highlight state
+                board[x][y].highlightChoice(false); // reset if was legal choice
                 if ( board[x][y].isOccupied()  &&          // IF it it occupied
                     (board[x][y].piece.player.isHuman()) && // AND it is human
                     (board[x][y].piece.player.getId() == current_player) && // AND it is current player
@@ -192,122 +191,74 @@ public class BoardDisplay extends Activity {
         }
     }
 
-    public void finishedMoving(View v) {
-
-        if (pre_game) {     // image indicates HUMAN finished juggling
+    public void finishedHumanBaseSetup(View v) {
+        // Human has finished setting up starting base lineup
+        if (pre_game) {     // HUMAN finished juggling
             // Setup PRE-GAME for next player
             Log.i(TAG, "Finishing PRE-GAME for player "+current_player);
             player[current_player].setStarted(true);
-            getNextPlayerTurn();
-        }
-
-        if (pre_game &&   // Check if everyone ready to start
-                player[0].isStarted() &&
-                player[1].isStarted() &&
-                player[2].isStarted() &&
-                player[3].isStarted()) {
-            // OK, all players are ready...
-            Log.i(TAG, "Finished PRE-GAME for all players");
             pre_game = false;
             tv_msg1.setText(getString(R.string.gameon));
-
-            // bit of a fudge to set to YELLOW player, so that next section moves to RED!
-            current_player = 3;
+            tv_msg2.setText(getString(R.string.selectpiece));
+            btn_finishedHumanBaseSetup.setVisibility(View.GONE);
         }
-
-        if (!pre_game) {    // Set up next player to move
-            getNextPlayerTurn();    // moves until next human
-            msg = "Player " + player[current_player].getColour() + " to move...";
-            tv_msg2.setText(msg);
-        }
-
-        // clean up the moveTo/From squares and stop flashing if hit button in middle of move
-        if (moveFromSquare!= null) {
-            moveFromSquare.highlightSquare(false);
-            if (moveToSquare != null) moveToSquare.highlightSquare(false);
-            resetLegalMoves();  // clear out the current list
-            moveFromSquare = null;
-            moveToSquare = null;
-            if (pre_game) tv_msg2.setText(getString(R.string.whenready));
-        }
-
-        resetBoardClickables();
-
     }
 
     public void makeComputerPlayerMove() {
-        msg = "Computer Player " + player[current_player].getColour() + " moved";
-        tv_msg2.setText(msg);
-        // pick a random piece
+        // Get all the legal-moves for all the pieces for the current player
         Piece comp_piece;
-        Random r = new Random();
-        do {
-            //pick a random piece, but ensure still in play
-            comp_piece = player[current_player].pieces[r.nextInt(8)];
-            comp_piece.logDetails();
-        }
-        while (comp_piece.getFinished());
-
-        Squares actionSquare = board[comp_piece.posX][comp_piece.posY];
-        // now get best move for that piece
         legalMoves = new ArrayList<>();
-        getLegalJumpsFrom(actionSquare);
+        for (int p=0; p<8 ; p++) {
+            comp_piece = player[current_player].pieces[p];
+            if (!comp_piece.getFinished()) {
+                comp_piece.logDetails();
+                getLegalJumpsFrom(board[comp_piece.posX][comp_piece.posY]);
+            }
+        }
+        // now get best move within the array
         if (legalMoves.isEmpty()) {
-            // errr....
             tv_msg2.setText(getString(R.string.novalidmoves));
             Log.i(TAG, "no valid moves for moveFromSquare");
         } else {
-            // light selected up
-            actionSquare.highlightSquare(true);
-            moveFromSquare = actionSquare;  // store it as "FROM" square
-
-            // find best move in array...
+            // we have at least one legal move, first shuffle to randomise....
+            Collections.shuffle(legalMoves);
+            // then find best move in whole array...
             best_comp_move = legalMoves.get(0);  // assume first for now
             int best_distance = legalMoves.get(0).distance;
             for (Move move : legalMoves ) {
-                // TODO - FIND THE BEST MOVE! JUST TAKE biggest distance for now
-                // but really need to account for beneficial direction
+                Log.i(TAG, "Legal " + move.log());
                 if (move.distance > best_distance && move.goodDirection(player[current_player].direction)) {
                     best_distance = move.distance;
                     best_comp_move = move;
                 }
             }
+            // Now perform the actual move
+            performMove(board[best_comp_move.fromX][best_comp_move.fromY], board[best_comp_move.toX][best_comp_move.toY]);
 
-
-            moveToSquare = board[best_comp_move.toX][best_comp_move.toY];
-            performMove(moveFromSquare, moveToSquare);
-
-            // clean up the moveTo/From squares and stop flashing
-            if (moveFromSquare!= null) {moveFromSquare.highlightSquare(false);}
-            if (moveToSquare != null) {moveToSquare.highlightSquare(false);}
-            resetLegalMoves ();  // clear out the current list
-            moveFromSquare = null;
-            moveToSquare = null;
+            // TODO : Highlight computer movement squares on the UI
+            msg = "Computer Player " + player[current_player].getColour() + " moved " + best_comp_move.log();
+            tv_msg2.setText(msg);
         }
-
     }
 
     public void getNextPlayerTurn() {
-        if (current_player + 1 == maxPlayers) {
+        if (current_player + 1 == numPlayers) {
             current_player = 0;
         } else {
             current_player = current_player + 1;
         }
-        btn_finished_moving_image.setImageDrawable(player[current_player].getImage());
-        if (moveFromSquare != null) moveFromSquare.highlightSquare(false);
-        if (moveToSquare != null) moveToSquare.highlightSquare(false);
-        resetBoardClickables();
-        resetLegalMoves();  // clear out the current list
+        resetBoardClickables();   // also clears any highlighted cells
         moveFromSquare = null;
         moveToSquare = null;
         if (pre_game) tv_msg2.setText(getString(R.string.whenready));
 
         // If a COMPUTER player then make the move automatically...
         if (!pre_game) {
-            while (player[current_player].getType() == PlayerType.COMPUTER && !player[current_player].isFinished()) {
+            while (player[current_player].getType() == PlayerType.COMPUTER && !player[current_player].hasFinished()) {
                 tv_msg2.setText(getResources().getString(R.string.computer_move, player[current_player].getColour()));
                 makeComputerPlayerMove();
                 getNextPlayerTurn();
+                
             }
         }
     }
@@ -315,11 +266,9 @@ public class BoardDisplay extends Activity {
     public void squareClicked(int id) {
 
         Squares actionSquare = sqFindById(id);
-        boolean continue_move = true;
         actionSquare.logDetails();  // log info of square pressed
 
         if (moveFromSquare == null) {
-
             // clear any existing legalmove trail, get fresh legalmoves, and flash valid target squares
             legalMoves = new ArrayList<>();
             getLegalJumpsFrom(actionSquare);   // also lights up options
@@ -337,43 +286,24 @@ public class BoardDisplay extends Activity {
             // Already have from-square...
             if (moveFromSquare.getSqButtonId() == actionSquare.getSqButtonId()) {
                 // Pressed the same image again, so cancel from-selection & stop-flashing
-                Log.i(TAG, "same image pressed, cancelling moveFromSquare");
-                if (pre_game) {tv_msg2.setText(getString(R.string.whenready));}
+                tv_msg2.setText(getString(R.string.cancelpiece));
+                moveFromSquare = null;
             } else {
-
                 // Now try to perform the move...
                 moveToSquare = actionSquare;
                 performMove(moveFromSquare, moveToSquare);
-                continue_move = true;
-                // If not in PRE-GAME then check if any more moves?
+                tv_msg2.setText(getString(R.string.selectpiece));
+                moveFromSquare = null;
+                moveToSquare = null;
+
                 if (!pre_game) {
-                    if ((Math.abs(moveFromSquare.getPosX()-moveToSquare.getPosX()) < 2) &&
-                            (Math.abs(moveFromSquare.getPosY()-moveToSquare.getPosY()) < 2)) {
-                        continue_move = false;
-                    } else {
-                        // TODO is there another valid jump for this one?
-                        getAnotherJump(moveToSquare);
-                    }
+                    getNextPlayerTurn();
                 }
             }
-            // clean up the moveTo/From squares and stop flashing
-            if (moveFromSquare!= null) {moveFromSquare.highlightSquare(false);}
-            if (moveToSquare != null) {moveToSquare.highlightSquare(false);}
             resetBoardClickables();
-            resetLegalMoves ();  // clear out the current list
-            moveFromSquare = null;
-            moveToSquare = null;
-            if (!continue_move) getNextPlayerTurn();
-            if (pre_game) {tv_msg2.setText(getString(R.string.whenready));}
         }
     }
 
-
-    public void getAnotherJump (Squares startSquare) {
-        // TODO - just printing details for now...
-        Log.i(TAG,"TODO: Check if more moves for:");
-        startSquare.logDetails();
-    }
 
     public void performMove(Squares fromSquare, Squares toSquare) {
         String msg;
@@ -382,19 +312,9 @@ public class BoardDisplay extends Activity {
         int toX = toSquare.getPosX();
         int toY = toSquare.getPosY();
 
-        msg = "Checking move from ("+fromX+","+fromY+") to ("+toX+","+toY+")";
-        Log.i(TAG, msg);
-        Log.i(TAG, "BEFORE:FROM");
-                board[fromX][fromY].logDetails();
-        Log.i(TAG, "BEFORE:TO");
-                board[toX][toY].logDetails();
-
         // assume move valid - swap pieces on the actual board
         int tmp_sq_ir = fromSquare.getSqImageResource();
         Piece tmp_sq_p = fromSquare.piece;
-
-        Log.i(TAG, "TEMP PIECE");
-        tmp_sq_p.logDetails();
 
         board[fromX][fromY].setSqImageResource(toSquare.getSqImageResource());
         board[fromX][fromY].getSqImageButton().setImageResource(toSquare.getSqImageResource());
@@ -404,7 +324,6 @@ public class BoardDisplay extends Activity {
             board[fromX][fromY].piece.setPosY(fromY);
         }
 
-
         board[toX][toY].setSqImageResource(tmp_sq_ir);
         board[toX][toY].getSqImageButton().setImageResource(tmp_sq_ir);
         board[toX][toY].setOccupied(tmp_sq_p);
@@ -413,13 +332,11 @@ public class BoardDisplay extends Activity {
             board[toX][toY].piece.setPosY(toY);
         }
 
-        Log.i(TAG, "AFTER:FROM");
-        board[fromX][fromY].logDetails();
-        Log.i(TAG, "AFTER:TO");
-        board[toX][toY].logDetails();
-
         // should force the board display to repaint...
         gl_board.invalidate();
+        resetBoardClickables();
+        board[fromX][fromY].flashSquare(5);
+        board[toX][toY].flashSquare(10);
 
         // Check if this piece ends up in EndZone for the player
         if (board[toX][toY].piece.getPlayer().inEndZone(toX,toY)) {
@@ -475,7 +392,7 @@ public class BoardDisplay extends Activity {
         int posY = fromHere.getPosY();
 
         if (pre_game) {
-            for (int i = 1; i < 9; i++) {// anything in the same base-section is valid (avoids CORNERS)
+            for (int i = 1; i < 9; i++) {// anything in the HUMAN base-section is valid (avoids CORNERS)
                 if ((direction == Direction.E2W || direction == Direction.W2E) && (i != posY)) {
                     legalMoves.add(new Move(posX, posY, posX, i)); // avoid same Y
                     board[posX][i].highlightChoice(true);
@@ -531,11 +448,6 @@ public class BoardDisplay extends Activity {
                     getLegalJumpsDirection(posX, posY,  0, -1);  // N
                 break;
         }
-
-        Log.i(TAG,"LEGALMOVES - ending getLegalJumpsFrom:"+legalMoves.toString());
-        Log.i(TAG,"LEGALMOVES - SIZE="+legalMoves.size());
-        Log.i(TAG,"LEGALMOVES - EMPTY="+legalMoves.isEmpty());
-
     }  // end getLegalJumpsFrom()
 
     void getLegalJumpsDirection(int posX, int posY, int incX, int incY) {
@@ -600,15 +512,5 @@ public class BoardDisplay extends Activity {
                 !board[x2][y2].isPlayerEndBase(player[current_player].direction)) return INVALID;
         return EMPTY; //  empty
     }  // end canJump()
-
-    void resetLegalMoves () {
-        int x, y;
-        for (int i=0; i < legalMoves.size(); i++) {
-            x = legalMoves.get(i).toX;
-            y = legalMoves.get(i).toY;
-            Log.i(TAG, "resetLegalMoves ["+i+"]- ("+x+","+y+") is being reset");
-            board[x][y].highlightChoice(false);
-        }
-    }// resetLegalMoves
 
 }

@@ -4,10 +4,10 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="square_base_top">#ffe4e4</color>
+    <color name="square_base_top">#fff6df</color>
     <color name="square_base_left">#fff6df</color>
-    <color name="square_base_right">#f0f8db</color>
-    <color name="square_base_bottom">#e2f4fb</color>
+    <color name="square_base_right">#fff6df</color>
+    <color name="square_base_bottom">#fff6df</color>
     <color name="square_corner">#f5eafa</color>
     <color name="piece_blue">#2cb1e1</color>
     <color name="piece_green">#92c500</color>

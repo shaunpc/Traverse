@@ -23,7 +23,6 @@ public class Player {
     Piece pieces[] = new Piece[8];
     boolean started;
     boolean finished;
-    Drawable image;
 
     public int getOffsetX() {
         return offsetX;
@@ -33,11 +32,11 @@ public class Player {
         return offsetY;
     }
 
-    public Player(int id, TeamColour colour, Direction direction) {
+    public Player(int id, TeamColour colour, PlayerType type, Direction direction) {
         this.id = id;
         this.colour = colour;
         this.direction = direction;
-        this.type = PlayerType.COMPUTER;  // default this on initial creation
+        this.type = type;
         this.started = false;
         this.finished = false;
 
@@ -53,7 +52,6 @@ public class Player {
             case S2N:
                 this.startX = -1;
                 this.startY = 9;
-
                 this.endX = -1;
                 this.endY = 0;
                 this.offsetX = 0;
@@ -77,7 +75,7 @@ public class Player {
                 break;
         }
 
-        Log.i(TAG, "...creating a new player....");
+        Log.i(TAG, "...creating a new player: " + id + ":" + colour + ":" + type);
 
         if (direction == Direction.N2S || direction == Direction.S2N) {
             this.pieces[0] = new Piece(this, 1, startY, ShapeType.TRIANGLE);
@@ -100,6 +98,10 @@ public class Player {
 
         }
 
+        // For all players - mix it up!
+        jugglePieces();
+        // For COMPUTER players - get ready to start
+        if (type == PlayerType.COMPUTER) setStarted(true);
     }
 
     public int getId() {
@@ -116,14 +118,6 @@ public class Player {
 
     public boolean isHuman() {
         return this.type == PlayerType.HUMAN;
-    }
-
-    public Drawable getImage() {
-        return image;
-    }
-
-    public void setImage(Drawable image) {
-        this.image = image;
     }
 
     public Direction getDirection() {
@@ -175,7 +169,7 @@ public class Player {
         return true;
     }
 
-    public boolean isFinished() {
+    public boolean hasFinished() {
         return finished;
     }
 

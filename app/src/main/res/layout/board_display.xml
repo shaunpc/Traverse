@@ -37,6 +37,7 @@
             android:layout_columnSpan="10"
             android:layout_gravity="fill"
             android:layout_rowSpan="10"
+            android:visibility="invisible"
             android:text="@string/fakebutton" />
 
     </GridLayout>
@@ -53,62 +54,61 @@
         android:maxHeight="@dimen/square_size"
         android:minHeight="@dimen/square_size"
         android:id="@+id/tv_msg1"
-        android:text="@string/game_info"
+        android:text="@string/pregame"
         android:textAlignment="center"
         android:textColor="@color/blue"
         android:textSize="@dimen/text_size_M" />
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/square_size_half" />
 
-
-    <LinearLayout
+    <Button
+        android:id="@+id/finished_moving_button"
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal"
-        android:id="@+id/finished_moving">
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/finished_moving"
+        android:maxHeight="@dimen/button_size"
+        android:minHeight="@dimen/button_size"
+        android:onClick="finishedHumanBaseSetup"
+        android:scaleType="fitCenter"
+        android:text="@string/finished_moving" />
 
-        <ImageButton
-            android:id="@+id/finished_moving_image"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:maxHeight="@dimen/button_size"
-            android:maxWidth="@dimen/button_size"
-            android:minHeight="@dimen/button_size"
-            android:minWidth="@dimen/button_size"
-            android:scaleType="centerInside"
-            android:src="@drawable/button_red"
-            android:contentDescription="@string/red"
-            android:onClick="finishedMoving"/>
-
-        <Button
-            android:id="@+id/finished_moving_button"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:adjustViewBounds="true"
-            android:maxHeight="@dimen/button_size"
-            android:minHeight="@dimen/button_size"
-            android:scaleType="fitCenter"
-            android:text="@string/finished_moving"
-            android:contentDescription="@string/red"
-            android:onClick="finishedMoving" />
-
-    </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/square_size_half" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:maxHeight="@dimen/square_size"
-        android:minHeight="@dimen/square_size"
+        android:maxHeight="@dimen/square_size_half"
+        android:minHeight="@dimen/square_size_half"
         android:id="@+id/tv_msg2"
-        android:text="@string/game_info"
+        android:text="@string/whenready"
         android:textAlignment="center"
         android:textColor="@color/blue"
         android:textSize="@dimen/text_size_S" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:maxHeight="@dimen/square_size_half"
+        android:minHeight="@dimen/square_size_half"
+        android:id="@+id/tv_msg3"
+        android:text="@string/blank"
+        android:textAlignment="center"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/text_size_XS" />
 
 </LinearLayout>

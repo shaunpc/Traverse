@@ -16,7 +16,7 @@ public class MainActivity extends Activity {
 
     public static final String PREF_FILE = "MyPrefsFile";
     public static final String TAG = "TRAVERSE";
-    public RadioGroup rg_numplayers;
+    public RadioGroup rg_opponents;
     public int num_players;
 
     @Override
@@ -39,21 +39,15 @@ public class MainActivity extends Activity {
     public void startGame(View view)
     {
         // Grab the current #Players from the RadioGroup
-        rg_numplayers = findViewById(R.id.numplayers);
-        switch(rg_numplayers.getCheckedRadioButtonId()) {
-            case R.id.numplayers0:
-                num_players=0;
-                break;
-            case R.id.numplayers1:
-                num_players=1;
-                break;
-            case R.id.numplayers2:
+        rg_opponents = findViewById(R.id.opponents);
+        switch(rg_opponents.getCheckedRadioButtonId()) {
+            case R.id.opponents1:
                 num_players=2;
                 break;
-            case R.id.numplayers3:
+            case R.id.opponents2:
                 num_players=3;
                 break;
-            case R.id.numplayers4:
+            case R.id.opponents3:
                 num_players=4;
                 break;
         }

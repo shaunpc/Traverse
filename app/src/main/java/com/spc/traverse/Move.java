@@ -6,7 +6,7 @@ package com.spc.traverse;
  */
 
 class Move {
-    private int fromX, fromY;
+    int fromX, fromY;
     private int incX, incY;
     int toX, toY;
     private int mult;
@@ -67,5 +67,9 @@ class Move {
         }
 
         return result;
+    }
+
+    String log() {
+        return "Move from " + this.fromX + "," + this.fromY + " to " + this.toX + "," + this.toY + " (dist=" + this.distance + ")";
     }
 }

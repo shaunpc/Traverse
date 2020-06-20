@@ -51,14 +51,14 @@ class Squares {
             // This will be overwritten shortly if a corner-square
             this.sqType = SquareType.BASE;
             this.sqSubType = SquareSubType.BASE_N;
-            this.sqBackgroundResource = R.drawable.sel_sq_base_n;
+            this.sqBackgroundResource = R.drawable.sel_sq_base;
         }
 
         if (posY == 9) {
             // This will be overwritten shortly if a corner-square
             this.sqType = SquareType.BASE;
             this.sqSubType = SquareSubType.BASE_S;
-            this.sqBackgroundResource = R.drawable.sel_sq_base_s;
+            this.sqBackgroundResource = R.drawable.sel_sq_base;
         }
 
         if (posX == 0) {
@@ -75,7 +75,7 @@ class Squares {
             } else {
                 this.sqType = SquareType.BASE;
                 this.sqSubType = SquareSubType.BASE_W;
-                this.sqBackgroundResource = R.drawable.sel_sq_base_w;
+                this.sqBackgroundResource = R.drawable.sel_sq_base;
             }
         }
 
@@ -93,7 +93,7 @@ class Squares {
             } else {
                 this.sqType = SquareType.BASE;
                 this.sqSubType = SquareSubType.BASE_E;
-                this.sqBackgroundResource = R.drawable.sel_sq_base_e;
+                this.sqBackgroundResource = R.drawable.sel_sq_base;
             }
         }
 
@@ -186,6 +186,18 @@ class Squares {
         }
     }
 
+    // flashes the square for a short duration
+    void flashSquare(int repeat) {
+        this.getSqImageButton().setPressed(true);
+        this.getSqImageButton().setActivated(true);
+        // set up an animation to flash image image
+        Animation mAnimation = new AlphaAnimation(1, 0);
+        mAnimation.setDuration(200);
+        mAnimation.setInterpolator(new LinearInterpolator());
+        mAnimation.setRepeatCount(repeat);
+        mAnimation.setRepeatMode(Animation.REVERSE);
+        this.getSqImageButton().startAnimation(mAnimation);
+    }
 
     void highlightSquare(Boolean on) {
 

@@ -56,87 +56,68 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/text_size_XS"
+                android:layout_marginStart="@dimen/text_size_XS"
+                android:layout_marginLeft="@dimen/text_size_XS"
                 android:layout_marginTop="@dimen/text_size_XS"
+                android:layout_marginEnd="@dimen/text_size_XS"
+                android:layout_marginRight="@dimen/text_size_XS"
+                android:layout_marginBottom="@dimen/text_size_XS"
                 android:gravity="center"
-                android:text="@string/numplayers"
+                android:text="@string/opponents"
                 android:textSize="@dimen/text_size_S" />
 
 
             <RadioGroup
-                android:id="@+id/numplayers"
+                android:id="@+id/opponents"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:orientation="horizontal"
-                android:checkedButton="@id/numplayers1"
+                android:checkedButton="@id/opponents1"
                 android:paddingBottom="@dimen/text_size_XS"
                 android:paddingLeft="@dimen/text_size_XS"
                 android:paddingRight="@dimen/text_size_XS">
 
                 <RadioButton
-                    android:id="@+id/numplayers0"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/opponents1"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/text_size_XS"
                     android:layout_marginEnd="@dimen/text_size_XS"
                     android:background="@drawable/sel_numplayerbutton_image"
-                    android:contentDescription="@string/game_title"
                     android:button="@null"
+                    android:contentDescription="@string/game_title"
                     android:fontFamily="cursive"
-                    android:text="@string/numplayer0"
+                    android:text="@string/opponents1"
                     android:textAlignment="center"
                     android:textColor="@android:color/holo_red_dark" />
 
                 <RadioButton
-                    android:id="@+id/numplayers1"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/opponents2"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/text_size_XS"
                     android:background="@drawable/sel_numplayerbutton_image"
-                    android:contentDescription="@string/game_title"
                     android:button="@null"
+                    android:contentDescription="@string/game_title"
                     android:fontFamily="cursive"
-                    android:text="@string/numplayer1"
+                    android:text="@string/opponents2"
                     android:textAlignment="center"
                     android:textColor="@android:color/holo_red_dark" />
 
                 <RadioButton
-                    android:id="@+id/numplayers2"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/opponents3"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/text_size_XS"
                     android:background="@drawable/sel_numplayerbutton_image"
-                    android:contentDescription="@string/game_title"
                     android:button="@null"
+                    android:contentDescription="@string/game_title"
                     android:fontFamily="cursive"
-                    android:text="@string/numplayer2"
+                    android:text="@string/opponents3"
                     android:textAlignment="center"
-                    android:textColor="@android:color/holo_red_dark"/>
+                    android:textColor="@android:color/holo_red_dark" />
 
-                <RadioButton
-                    android:id="@+id/numplayers3"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_marginEnd="@dimen/text_size_XS"
-                    android:background="@drawable/sel_numplayerbutton_image"
-                    android:contentDescription="@string/game_title"
-                    android:button="@null"
-                    android:fontFamily="cursive"
-                    android:text="@string/numplayer3"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/holo_red_dark"/>
-
-                <RadioButton
-                    android:id="@+id/numplayers4"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:background="@drawable/sel_numplayerbutton_image"
-                    android:contentDescription="@string/game_title"
-                    android:button="@null"
-                    android:fontFamily="cursive"
-                    android:text="@string/numplayer4"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/holo_red_dark"/>
             </RadioGroup>
 
         </LinearLayout>
