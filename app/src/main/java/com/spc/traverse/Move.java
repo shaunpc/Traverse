@@ -12,9 +12,10 @@ class Move {
     private int mult;
     Direction direction;
     int distance;
+    float score;
 
     // initiation with incremental direction and multiplier
-    Move (int fromX, int fromY, int incX, int incY, int mult) {
+    Move (int fromX, int fromY, int incX, int incY, int mult, Direction ply_dir) {
 
         // DEFAULT BASIC ATTRIBUTES
         this.fromX = fromX;
@@ -27,11 +28,12 @@ class Move {
         this.toX = fromX + (mult*incX);
         this.toY = fromY + (mult*incY);
         this.distance = mult;
-        // this.direction = direction;
+        this.direction = ply_dir;
 
+        this.score = calculateMoveScore();
     }
 
-    // initiation with specific destination - mainly for pre-game
+    // initiation with specific destination - for pre-game
     Move (int fromX, int fromY, int toX, int toY) {
 
         // DEFAULT BASIC ATTRIBUTES
@@ -42,9 +44,40 @@ class Move {
         this.mult = 0;
         this.toX = toX;
         this.toY = toY;
-        this.distance = Math.max(Math.abs(fromX - toX),Math.abs(fromY - toY));
-        // this.direction = direction;
+        this.distance = 0;
+        this.direction = null;
+        this.score = 0f;
+    }
 
+    private float calculateMoveScore () {
+        float calc = 0;
+
+        // FACTORS
+
+        switch (this.direction) {
+            case E2W:
+                calc += this.toX - this.fromX;                      // Forwards
+                calc += 0.5 * Math.abs((this.toY - this.fromY));    // Sideways
+                if (this.toX == 0) {calc += 1;}                     // End zone
+                break;
+            case W2E:
+                calc += this.fromX - this.toX;                      // Forwards
+                calc += 0.5 * Math.abs((this.toY - this.fromY));    // Sideways
+                if (this.toX == 9) {calc += 1;}                     // End zone
+                break;
+            case N2S:
+                calc += this.toY - this.fromY;                      // Forwards
+                calc += 0.5 * Math.abs((this.toX - this.fromX));    // Sideways
+                if (this.toY == 9) {calc += 1;}                     // End zone
+                break;
+            case S2N:
+                calc += this.fromY - this.toY;                      // Forwards
+                calc += 0.5 * Math.abs((this.toX - this.fromX));    // Sideways
+                if (this.toY == 0) {calc += 1;}                     // End zone
+                break;
+        }
+
+        return calc;
     }
 
     boolean goodDirection(Direction direction) {
@@ -70,6 +103,7 @@ class Move {
     }
 
     String log() {
-        return "Move from " + this.fromX + "," + this.fromY + " to " + this.toX + "," + this.toY + " (dist=" + this.distance + ")";
+        return "move from " + this.fromX + "," + this.fromY + " to " + this.toX + "," + this.toY +
+                " (dist=" + this.distance + "/score=" + Float.toString(this.score) +") " + this.direction ;
     }
 }

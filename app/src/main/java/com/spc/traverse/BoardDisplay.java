@@ -224,11 +224,11 @@ public class BoardDisplay extends Activity {
             Collections.shuffle(legalMoves);
             // then find best move in whole array...
             best_comp_move = legalMoves.get(0);  // assume first for now
-            int best_distance = legalMoves.get(0).distance;
+            float best_score = legalMoves.get(0).score;
             for (Move move : legalMoves ) {
                 Log.i(TAG, "Legal " + move.log());
-                if (move.distance > best_distance && move.goodDirection(player[current_player].direction)) {
-                    best_distance = move.distance;
+                if (move.score > best_score) {
+                    best_score = move.score;
                     best_comp_move = move;
                 }
             }
@@ -236,8 +236,9 @@ public class BoardDisplay extends Activity {
             performMove(board[best_comp_move.fromX][best_comp_move.fromY], board[best_comp_move.toX][best_comp_move.toY]);
 
             // TODO : Highlight computer movement squares on the UI
-            msg = "Computer Player " + player[current_player].getColour() + " moved " + best_comp_move.log();
+            msg = "Computer Player " + player[current_player].getColour() + best_comp_move.log();
             tv_msg2.setText(msg);
+            board[best_comp_move.toX][best_comp_move.toY].flashSquare(5);
         }
     }
 
@@ -248,6 +249,7 @@ public class BoardDisplay extends Activity {
             current_player = current_player + 1;
         }
         resetBoardClickables();   // also clears any highlighted cells
+        if (best_comp_move != null) {board[best_comp_move.toX][best_comp_move.toY].flashSquare(5);}
         moveFromSquare = null;
         moveToSquare = null;
         if (pre_game) tv_msg2.setText(getString(R.string.whenready));
@@ -304,7 +306,6 @@ public class BoardDisplay extends Activity {
         }
     }
 
-
     public void performMove(Squares fromSquare, Squares toSquare) {
         String msg;
         int fromX = fromSquare.getPosX();
@@ -356,8 +357,6 @@ public class BoardDisplay extends Activity {
         }
     }
 
-
-
     public Squares sqFindById(int sqButtonID) {
         for (int y = 0; y < maxRows; y++) {
             for (int x = 0; x < maxCols; x++) {
@@ -386,18 +385,15 @@ public class BoardDisplay extends Activity {
     // Populates the legalMoves array of valid moves from the square passed. If no such
     // jumps are possible, null is returned.
     public void getLegalJumpsFrom(Squares fromHere) {
-        Direction direction = fromHere.piece.player.getDirection();    // ... and which way are they heading?
+        Direction player_direction = fromHere.piece.player.getDirection();    // ... and which way are they heading?
         ShapeType shape = fromHere.piece.getShape();        // ... and which shape is it?
         int posX = fromHere.getPosX();
         int posY = fromHere.getPosY();
 
         if (pre_game) {
-            for (int i = 1; i < 9; i++) {// anything in the HUMAN base-section is valid (avoids CORNERS)
-                if ((direction == Direction.E2W || direction == Direction.W2E) && (i != posY)) {
-                    legalMoves.add(new Move(posX, posY, posX, i)); // avoid same Y
-                    board[posX][i].highlightChoice(true);
-                }
-                if ((direction == Direction.N2S || direction == Direction.S2N) && (i != posX)) {
+            // anything in HUMAN base-section is valid (avoids CORNERS and selected square itself)
+            for (int i = 1; i < 9; i++) {
+                if (i != posX) {
                     legalMoves.add(new Move(posX, posY, i, posY)); // avoid same X
                     board[i][posY].highlightChoice(true);
                 }
@@ -407,66 +403,65 @@ public class BoardDisplay extends Activity {
 
         switch (shape) {
             case CIRCLE:
-                getLegalJumpsDirection(posX, posY, -1, +1);  // SW
-                getLegalJumpsDirection(posX, posY, -1, -1);  // NW
-                getLegalJumpsDirection(posX, posY, +1, +1);  // SE
-                getLegalJumpsDirection(posX, posY, +1, -1);  // NE
-                getLegalJumpsDirection(posX, posY, +1,  0);  // E
-                getLegalJumpsDirection(posX, posY, -1,  0);  // W
-                getLegalJumpsDirection(posX, posY,  0, +1);  // S
-                getLegalJumpsDirection(posX, posY,  0, -1);  // N
+                getLegalJumpsDirection(posX, posY, -1, +1, player_direction);  // SW
+                getLegalJumpsDirection(posX, posY, -1, -1, player_direction);  // NW
+                getLegalJumpsDirection(posX, posY, +1, +1, player_direction);  // SE
+                getLegalJumpsDirection(posX, posY, +1, -1, player_direction);  // NE
+                getLegalJumpsDirection(posX, posY, +1,  0, player_direction);  // E
+                getLegalJumpsDirection(posX, posY, -1,  0, player_direction);  // W
+                getLegalJumpsDirection(posX, posY,  0, +1, player_direction);  // S
+                getLegalJumpsDirection(posX, posY,  0, -1, player_direction);  // N
                 break;
             case DIAMOND:
-                getLegalJumpsDirection(posX, posY, -1, +1);  // SW
-                getLegalJumpsDirection(posX, posY, -1, -1);  // NW
-                getLegalJumpsDirection(posX, posY, +1, +1);  // SE
-                getLegalJumpsDirection(posX, posY, +1, -1);  // NE
+                getLegalJumpsDirection(posX, posY, -1, +1, player_direction);  // SW
+                getLegalJumpsDirection(posX, posY, -1, -1, player_direction);  // NW
+                getLegalJumpsDirection(posX, posY, +1, +1, player_direction);  // SE
+                getLegalJumpsDirection(posX, posY, +1, -1, player_direction);  // NE
                 break;
             case SQUARE:
-                getLegalJumpsDirection(posX, posY, +1,  0);  // E
-                getLegalJumpsDirection(posX, posY, -1,  0);  // W
-                getLegalJumpsDirection(posX, posY,  0, +1);  // S
-                getLegalJumpsDirection(posX, posY,  0, -1);  // N
+                getLegalJumpsDirection(posX, posY, +1,  0, player_direction);  // E
+                getLegalJumpsDirection(posX, posY, -1,  0, player_direction);  // W
+                getLegalJumpsDirection(posX, posY,  0, +1, player_direction);  // S
+                getLegalJumpsDirection(posX, posY,  0, -1, player_direction);  // N
                 break;
             case TRIANGLE:
                 // do something special depending on player direction
-                if (direction == Direction.E2W || direction == Direction.N2S)
-                    getLegalJumpsDirection(posX, posY, -1, +1);  // SW
-                if (direction == Direction.E2W || direction == Direction.S2N)
-                    getLegalJumpsDirection(posX, posY, -1, -1);  // NW
-                if (direction == Direction.W2E || direction == Direction.N2S)
-                    getLegalJumpsDirection(posX, posY, +1, +1);  // SE
-                if (direction == Direction.W2E || direction == Direction.S2N)
-                    getLegalJumpsDirection(posX, posY, +1, -1);  // NE
-                if (direction == Direction.E2W)
-                    getLegalJumpsDirection(posX, posY, +1,  0);  // E
-                if (direction == Direction.W2E)
-                    getLegalJumpsDirection(posX, posY, -1,  0);  // W
-                if (direction == Direction.S2N)
-                    getLegalJumpsDirection(posX, posY,  0, +1);  // S
-                if (direction == Direction.N2S)
-                    getLegalJumpsDirection(posX, posY,  0, -1);  // N
+                if (player_direction == Direction.E2W || player_direction == Direction.N2S)
+                    getLegalJumpsDirection(posX, posY, -1, +1, player_direction);  // SW
+                if (player_direction == Direction.E2W || player_direction == Direction.S2N)
+                    getLegalJumpsDirection(posX, posY, -1, -1, player_direction);  // NW
+                if (player_direction == Direction.W2E || player_direction == Direction.N2S)
+                    getLegalJumpsDirection(posX, posY, +1, +1, player_direction);  // SE
+                if (player_direction == Direction.W2E || player_direction == Direction.S2N)
+                    getLegalJumpsDirection(posX, posY, +1, -1, player_direction);  // NE
+                if (player_direction == Direction.E2W)
+                    getLegalJumpsDirection(posX, posY, +1,  0, player_direction);  // E
+                if (player_direction == Direction.W2E)
+                    getLegalJumpsDirection(posX, posY, -1,  0, player_direction);  // W
+                if (player_direction == Direction.S2N)
+                    getLegalJumpsDirection(posX, posY,  0, +1, player_direction);  // S
+                if (player_direction == Direction.N2S)
+                    getLegalJumpsDirection(posX, posY,  0, -1, player_direction);  // N
                 break;
         }
     }  // end getLegalJumpsFrom()
 
-    void getLegalJumpsDirection(int posX, int posY, int incX, int incY) {
+    void getLegalJumpsDirection(int posX, int posY, int incX, int incY, Direction player_dir) {
         // array of integers representing the square states in the direction of travel
         int[] squareState = new int[9];
         // Log.i(TAG, "Trajectory = ["+incX+","+incY+"]");
         for (int i=1; i<9; i++) {
             squareState[i] = squareState(posX+(i*incX),posY+(i*incY));
-            //Log.i(TAG, "squareState[" + i + "]=" + squareState[i]);
         }
 
         if (squareState[1]==EMPTY) {
-            legalMoves.add(new Move(posX, posY, incX, incY, 1));
+            legalMoves.add(new Move(posX, posY, incX, incY, 1, player_dir));
             board[posX+(incX)][posY+(incY)].highlightChoice(true);
         }
 
         if (squareState[1]==OCCUPIED &&
             squareState[2]==EMPTY) {
-            legalMoves.add(new Move(posX, posY, incX, incY, 2));
+            legalMoves.add(new Move(posX, posY, incX, incY, 2, player_dir));
             board[posX+(2*incX)][posY+(2*incY)].highlightChoice(true);
         }
 
@@ -474,7 +469,7 @@ public class BoardDisplay extends Activity {
                 squareState[2]==OCCUPIED &&
                 squareState[3]==EMPTY &&
                 squareState[4]==EMPTY) {
-            legalMoves.add(new Move(posX, posY, incX, incY, 4));
+            legalMoves.add(new Move(posX, posY, incX, incY, 4, player_dir));
             board[posX+(4*incX)][posY+(4*incY)].highlightChoice(true);
         }
 
@@ -484,7 +479,7 @@ public class BoardDisplay extends Activity {
                 squareState[4]==EMPTY &&
                 squareState[5]==EMPTY &&
                 squareState[6]==EMPTY) {
-            legalMoves.add(new Move(posX, posY, incX, incY, 6));
+            legalMoves.add(new Move(posX, posY, incX, incY, 6, player_dir));
             board[posX+(6*incX)][posY+(6*incY)].highlightChoice(true);
         }
 
@@ -496,7 +491,7 @@ public class BoardDisplay extends Activity {
                 squareState[6]==EMPTY &&
                 squareState[7]==EMPTY &&
                 squareState[8]==EMPTY) {
-            legalMoves.add(new Move(posX, posY, incX, incY, 8));
+            legalMoves.add(new Move(posX, posY, incX, incY, 8, player_dir));
             board[posX+(8*incX)][posY+(8*incY)].highlightChoice(true);
         }
     }
