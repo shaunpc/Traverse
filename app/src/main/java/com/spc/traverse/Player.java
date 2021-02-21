@@ -20,7 +20,7 @@ public class Player {
     int startX, startY;
     int offsetX, offsetY;
     int endX, endY;
-    Piece pieces[] = new Piece[8];
+    Piece[] pieces = new Piece[8];
     boolean started;
     boolean finished;
 
@@ -201,7 +201,7 @@ public class Player {
             // get the first random integer
             ri_2 = 0;
             ri_1 = r.nextInt(8);
-            Boolean ri_same = true;
+            boolean ri_same = true;
             while (ri_same) {  // loop until a second random one is different
                 ri_2 = r.nextInt(8);
                 if (ri_1 != ri_2) {

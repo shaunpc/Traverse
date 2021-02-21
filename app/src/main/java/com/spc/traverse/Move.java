@@ -7,9 +7,10 @@ package com.spc.traverse;
 
 class Move {
     int fromX, fromY;
-    private int incX, incY;
+    int incX;
+    int incY;
     int toX, toY;
-    private int mult;
+    int mult;
     Direction direction;
     int distance;
     float score;
@@ -104,6 +105,6 @@ class Move {
 
     String log() {
         return "move from " + this.fromX + "," + this.fromY + " to " + this.toX + "," + this.toY +
-                " (dist=" + this.distance + "/score=" + Float.toString(this.score) +") " + this.direction ;
+                " (dist=" + this.distance + "/score=" + this.score +") " + this.direction ;
     }
 }

@@ -108,11 +108,7 @@ public class BoardDisplay extends Activity {
             // set square state attributes
             board[x][y].setOccupied(player.pieces[p]);
             // set square image-clickable attributes depending on HUMAN or COMPUTER player
-            if (player.isHuman()) {
-                board[x][y].getSqImageButton().setClickable(true);
-            } else {
-                board[x][y].getSqImageButton().setClickable(false);
-            }
+            board[x][y].getSqImageButton().setClickable(player.isHuman());
         }
     }
 
@@ -121,14 +117,11 @@ public class BoardDisplay extends Activity {
             for (int x = 0; x < maxCols; x++) {
                 board[x][y].highlightSquare(false); // reset square highlight state
                 board[x][y].highlightChoice(false); // reset if was legal choice
-                if ( board[x][y].isOccupied()  &&          // IF it it occupied
-                    (board[x][y].piece.player.isHuman()) && // AND it is human
-                    (board[x][y].piece.player.getId() == current_player) && // AND it is current player
-                    (!board[x][y].piece.getFinished())) {   // AND it is not in the endzone
-                    board[x][y].getSqImageButton().setClickable(true);
-                } else {
-                    board[x][y].getSqImageButton().setClickable(false);
-                }
+                // determine if cell is clickable
+                board[x][y].getSqImageButton().setClickable(board[x][y].isOccupied() &&          // IF it it occupied
+                        (board[x][y].piece.player.isHuman()) && // AND it is human
+                        (board[x][y].piece.player.getId() == current_player) && // AND it is current player
+                        (!board[x][y].piece.getFinished())); // AND it is not in the endzone
             }
         }
     }

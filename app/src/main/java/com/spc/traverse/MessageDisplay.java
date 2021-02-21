@@ -11,8 +11,6 @@ import android.widget.TextView;
  */
 public class MessageDisplay extends Activity {
 
-    public static final String TAG = "MessageDisplay";
-
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
